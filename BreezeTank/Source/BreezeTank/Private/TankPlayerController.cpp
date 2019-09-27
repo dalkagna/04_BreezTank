@@ -2,6 +2,7 @@
 
 
 #include "BreezeTank.h"
+#include "Tank.h"
 #include "Engine/World.h"
 #include "TankPlayerController.h"
 //#include "GameFramework/Actor.h"
@@ -20,7 +21,7 @@ void ATankPlayerController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController posessing: %s"), *(ControlledTank->GetName()));
+		//UE_LOG(LogTemp, Warning, TEXT("PlayerController posessing: %s"), *(ControlledTank->GetName()));
 	}
 }
 
@@ -42,6 +43,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetControlledTank()) {
 		return;
 	}
+	
 	FVector HitLocation; //out parameter
 	if (GetSightRayHitLocation(HitLocation)) // Has side-effect, is going to line trace
 	{
@@ -70,6 +72,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	}
 	// line-trace along that look direction, and see what we hit (up to max range)
 	return true;
+
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
@@ -78,11 +81,11 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
 	if (GetWorld()->LineTraceSingleByChannel(
-		HitResult,
-		StartLocation,
-		EndLocation,
-		ECollisionChannel::ECC_Visibility)
-		)
+					HitResult,
+					StartLocation,
+					EndLocation,
+					ECollisionChannel::ECC_Visibility)
+			)
 		{
 			HitLocation = HitResult.Location;
 			return true;
