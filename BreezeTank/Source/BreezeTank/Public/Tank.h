@@ -9,6 +9,7 @@
 // forward declarations
 class UTankBarrel;
 class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class BREEZETANK_API ATank : public APawn
@@ -42,4 +43,13 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UTankBarrel* Barrel = nullptr; 
+	// local barrel reference for spawning projectile
+
+	float ReloadTimeInSeconds = 3;
+	double LastFireTime = 0;
 };
